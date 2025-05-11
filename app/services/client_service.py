@@ -1,8 +1,10 @@
 from app.repositories import ClientRepository
 from app.models.schemas import ClientSchema
 from app.utils.exceptions import NotFoundError
+from app.utils.exceptions import BusinessRuleError
 
 class ClientService:
+    
     @staticmethod
     def register_client(data):
         validated_data = ClientSchema().load(data)

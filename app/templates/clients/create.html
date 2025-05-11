@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Novo Cliente</h1>
+    <form method="POST" action="{{ url_for('client_controller.create') }}">
+        <label>Nome: <input type="text" name="name" required></label><br>
+        <label>Email: <input type="email" name="email" required></label><br>
+        <button type="submit">Salvar</button>
+    </form>
+{% endblock %}

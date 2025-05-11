@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Novo Autor</h1>
+    <form method="POST" action="{{ url_for('author_controller.create') }}">
+        <label>Nome: <input type="text" name="name" required></label><br>
+        <label>Biografia: <textarea name="biography"></textarea></label><br>
+        <button type="submit">Salvar</button>
+    </form>
+{% endblock %}

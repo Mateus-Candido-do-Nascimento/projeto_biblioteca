@@ -1,5 +1,6 @@
-from marshmallow import Schema, fields, validate
+from marshmallow import Schema, fields, validates
 from datetime import datetime
+from app.utils.validators import ValidationError
 
 class LoanSchema(Schema):
     id = fields.Int(dump_only=True)

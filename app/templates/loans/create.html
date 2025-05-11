@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Novo Empréstimo</h1>
+    <form method="POST" action="{{ url_for('loan_controller.create') }}">
+        <label>Cliente: 
+            <select name="id_client" required>
+                {% for client in clients %}
+                <option value="{{ client.id }}">{{ client.name }}</option>
+                {% endfor %}
+            </select>
+        </label><br>
+        <label>Livros: 
+            <select name="book_ids" multiple required>
+                {% for book in books %}
+                <option value="{{ book.id }}">{{ book.name }} ({{ book.author.name }})</option>
+                {% endfor %}
+            </select>
+        </label><br>
+        <button type="submit">Registrar</button>
+    </form>
+{% endblock %}

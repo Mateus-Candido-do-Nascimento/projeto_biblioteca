@@ -1,80 +1,39 @@
 from app.repositories.database import db, BaseRepository
-from app.models.entities.category import Category
+from app.models.entities.loan import Loan
 from sqlalchemy.exc import SQLAlchemyError
+from datetime import datetime
 
-class CategoryRepository(BaseRepository):
+class LoanRepository(BaseRepository):
     @staticmethod
     def get_all():
-        """Retorna todas as categorias ordenadas por nome"""
-        return Category.query.order_by(Category.name).all()
+        return Loan.query.order_by(Loan.start.desc()).all()
 
     @staticmethod
-    def get_by_id(category_id):
-        """Busca uma categoria por ID"""
-        return Category.query.get(category_id)
+    def get_active():
+        return Loan.query.filter(Loan.end.is_(None)).all()
 
     @staticmethod
-    def get_by_name(name):
-        """Busca categorias por nome (case-insensitive, busca parcial)"""
-        return Category.query.filter(Category.name.ilike(f'%{name}%')).all()
+    def get_by_client(client_id):
+        return Loan.query.filter_by(id_client=client_id).order_by(Loan.start.desc()).all()
 
     @staticmethod
-    def create(category_data):
-        """
-        Cria uma nova categoria
-        Args:
-            category_data: Dicionário com {name: string}
-        Returns:
-            Category: Objeto criado
-        Raises:
-            SQLAlchemyError: Em caso de erro no banco
-        """
+    def create(loan_data):
         try:
-            category = Category(**category_data)
-            return BaseRepository.save(category)
+            loan = Loan(**loan_data)
+            return BaseRepository.save(loan)
         except SQLAlchemyError as e:
             BaseRepository.rollback()
             raise e
 
     @staticmethod
-    def update(category_id, category_data):
-        """
-        Atualiza uma categoria existente
-        Args:
-            category_id: ID da categoria
-            category_data: Dicionário com campos para atualizar
-        Returns:
-            Category: Objeto atualizado ou None se não encontrado
-        """
-        category = CategoryRepository.get_by_id(category_id)
-        if not category:
+    def finalize(loan_id):
+        loan = LoanRepository.get_by_id(loan_id)
+        if not loan or loan.end:
             return None
             
         try:
-            for key, value in category_data.items():
-                setattr(category, key, value)
-            return BaseRepository.save(category)
-        except SQLAlchemyError as e:
-            BaseRepository.rollback()
-            raise e
-
-    @staticmethod
-    def delete(category_id):
-        """
-        Remove uma categoria
-        Args:
-            category_id: ID da categoria
-        Returns:
-            bool: True se removido, False se não encontrado
-        """
-        category = CategoryRepository.get_by_id(category_id)
-        if not category:
-            return False
-            
-        try:
-            db.session.delete(category)
-            db.session.commit()
-            return True
+            loan.end = datetime.utcnow()
+            return BaseRepository.save(loan)
         except SQLAlchemyError as e:
             BaseRepository.rollback()
             raise e

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Biblioteca</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        nav a { margin-right: 15px; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ddd; padding: 8px; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="{{ url_for('book_controller.index') }}">Livros</a>
+        <a href="{{ url_for('client_controller.index') }}">Clientes</a>
+        <a href="{{ url_for('loan_controller.index') }}">Empréstimos</a>
+    </nav>
+    {% block content %}{% endblock %}
+</body>
+</html>

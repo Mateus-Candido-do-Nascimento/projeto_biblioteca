@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Nova Categoria</h1>
+    <form method="POST" action="{{ url_for('category_controller.create') }}">
+        <label>Nome: <input type="text" name="name" required></label><br>
+        <button type="submit">Salvar</button>
+    </form>
+{% endblock %}
