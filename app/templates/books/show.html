@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}{{ book.name }} - Biblioteca{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h2 class="mb-0">{{ book.name }}</h2>
+        <div class="btn-group" role="group">
+            <a href="{{ url_for('book_controller.edit', id=book.id) }}" class="btn btn-warning">Editar</a>
+            <a href="{{ url_for('book_controller.delete', id=book.id) }}" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja excluir este livro?')">Excluir</a>
+            {% if not book.is_available %}
+            <a href="{{ url_for('book_controller.return_book', id=book.id) }}" class="btn btn-secondary">Devolver</a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <h5>Informações do Livro</h5>
+                <table class="table">
+                    <tr>
+                        <th>Título:</th>
+                        <td>{{ book.name }}</td>
+                    </tr>
+                    <tr>
+                        <th>Autor:</th>
+                        <td>{{ book.author.name }}</td>
+                    </tr>
+                    <tr>
+                        <th>Categoria:</th>
+                        <td>{{ book.category.name }}</td>
+                    </tr>
+                    <tr>
+                        <th>Status:</th>
+                        <td>
+                            {% if book.is_available %}
+                            <span class="badge bg-success">Disponível</span>
+                            {% else %}
+                            <span class="badge bg-danger">Emprestado</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Quantidade:</th>
+                        <td>{{ book.quantity }}</td>
+                    </tr>
+                </table>
+            </div>
+            {% if not book.is_available and book.current_loan %}
+            <div class="col-md-6">
+                <h5>Informações do Empréstimo</h5>
+                <table class="table">
+                    <tr>
+                        <th>Cliente:</th>
+                        <td>{{ book.current_loan.client.name }}</td>
+                    </tr>
+                    <tr>
+                        <th>Data de Empréstimo:</th>
+                        <td>{{ book.current_loan.loan_date.strftime('%d/%m/%Y') }}</td>
+                    </tr>
+                    <tr>
+                        <th>Data de Devolução:</th>
+                        <td>{{ book.current_loan.return_date.strftime('%d/%m/%Y') }}</td>
+                    </tr>
+                </table>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="card-footer">
+        <a href="{{ url_for('book_controller.index') }}" class="btn btn-secondary">Voltar para Lista</a>
+    </div>
+</div>
+{% endblock %} 

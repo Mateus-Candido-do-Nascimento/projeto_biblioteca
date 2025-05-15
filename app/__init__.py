@@ -15,12 +15,14 @@ def create_app():
     migrate.init_app(app, db)
 
     # Registrar todos os blueprints
+    from app.controllers.index_controller import index_bp
     from app.controllers.author_controller import author_bp
     from app.controllers.book_controller import book_bp
     from app.controllers.category_controller import category_bp
     from app.controllers.client_controller import client_bp
     from app.controllers.loan_controller import loan_bp
 
+    app.register_blueprint(index_bp)  # Sem url_prefix para a rota raiz
     app.register_blueprint(author_bp, url_prefix='/authors')
     app.register_blueprint(book_bp, url_prefix='/books')
     app.register_blueprint(category_bp, url_prefix='/categories')

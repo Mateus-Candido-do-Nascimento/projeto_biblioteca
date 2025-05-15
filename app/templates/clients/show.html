@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Detalhes do Cliente - Biblioteca{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h2 class="mb-0">Detalhes do Cliente</h2>
+    </div>
+    <div class="card-body">
+        <table class="table">
+            <tr>
+                <th>Nome:</th>
+                <td>{{ client.name }}</td>
+            </tr>
+            <tr>
+                <th>Email:</th>
+                <td>{{ client.email }}</td>
+            </tr>
+            <tr>
+                <th>Telefone:</th>
+                <td>{{ client.phone }}</td>
+            </tr>
+            <tr>
+                <th>Empréstimos Ativos:</th>
+                <td>{{ client.active_loans_count }}</td>
+            </tr>
+        </table>
+    </div>
+    <div class="card-footer">
+        <a href="{{ url_for('client_controller.index') }}" class="btn btn-secondary">Voltar para Lista</a>
+        <a href="{{ url_for('client_controller.edit', id=client.id) }}" class="btn btn-warning">Editar</a>
+        <form action="{{ url_for('client_controller.delete', id=client.id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Tem certeza que deseja excluir este cliente?');">
+            <button type="submit" class="btn btn-danger">Excluir</button>
+        </form>
+    </div>
+</div>
+{% endblock %} 

@@ -17,3 +17,14 @@ class ClientService:
         if client := ClientRepository.get_by_email(email):
             return client
         raise NotFoundError("Cliente não encontrado")
+
+    @staticmethod
+    def get_all_clients():
+        return ClientRepository.get_all()
+
+    @staticmethod
+    def get_client_by_id(client_id):
+        client = ClientRepository.get_by_id(client_id)
+        if client:
+            return client
+        raise NotFoundError("Cliente não encontrado")

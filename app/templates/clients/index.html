@@ -1,28 +1,45 @@
 {% extends "base.html" %}
 
+{% block title %}Clientes - Biblioteca{% endblock %}
+
 {% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
     <h1>Clientes</h1>
-    <a href="{{ url_for('client_controller.create') }}">Novo Cliente</a>
-    <table>
+    <a href="{{ url_for('client_controller.create') }}" class="btn btn-primary">Novo Cliente</a>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
         <thead>
             <tr>
-                <th>ID</th>
                 <th>Nome</th>
                 <th>Email</th>
+                <th>Telefone</th>
+                <th>Empréstimos Ativos</th>
                 <th>Ações</th>
             </tr>
         </thead>
         <tbody>
             {% for client in clients %}
             <tr>
-                <td>{{ client.id }}</td>
                 <td>{{ client.name }}</td>
                 <td>{{ client.email }}</td>
+                <td>{{ client.phone }}</td>
                 <td>
-                    <a href="{{ url_for('client_controller.edit', id=client.id) }}">Editar</a>
+                    <span class="badge {% if client.active_loans_count > 0 %}bg-warning{% else %}bg-success{% endif %}">
+                        {{ client.active_loans_count }}
+                    </span>
+                </td>
+                <td>
+                    <div class="btn-group" role="group">
+                        <a href="{{ url_for('client_controller.show', id=client.id) }}" class="btn btn-info btn-sm">Detalhes</a>
+                        <a href="{{ url_for('client_controller.edit', id=client.id) }}" class="btn btn-warning btn-sm">Editar</a>
+                        <a href="{{ url_for('client_controller.delete', id=client.id) }}" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja excluir este cliente?')">Excluir</a>
+                    </div>
                 </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
+</div>
 {% endblock %}

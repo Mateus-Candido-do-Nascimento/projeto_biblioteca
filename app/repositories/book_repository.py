@@ -37,4 +37,25 @@ class BookRepository(BaseRepository):
 
     @staticmethod
     def update_quantity(book_id, change):
-        book = BookRepository.get_by
+        book = BookRepository.get_by_id(book_id)
+        if not book:
+            return None
+        try:
+            book.quantity += change
+            return BaseRepository.save(book)
+        except SQLAlchemyError as e:
+            BaseRepository.rollback()
+            raise e
+
+    @staticmethod
+    def update(book_id, book_data):
+        book = BookRepository.get_by_id(book_id)
+        if not book:
+            return None
+        try:
+            for key, value in book_data.items():
+                setattr(book, key, value)
+            return BaseRepository.save(book)
+        except SQLAlchemyError as e:
+            BaseRepository.rollback()
+            raise e

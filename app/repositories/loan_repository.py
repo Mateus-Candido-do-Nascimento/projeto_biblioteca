@@ -37,3 +37,20 @@ class LoanRepository(BaseRepository):
         except SQLAlchemyError as e:
             BaseRepository.rollback()
             raise e
+
+    @staticmethod
+    def get_by_id(loan_id):
+        return Loan.query.get(loan_id)
+
+    @staticmethod
+    def delete(loan_id):
+        loan = LoanRepository.get_by_id(loan_id)
+        if not loan:
+            return False
+        try:
+            db.session.delete(loan)
+            db.session.commit()
+            return True
+        except SQLAlchemyError as e:
+            BaseRepository.rollback()
+            raise e

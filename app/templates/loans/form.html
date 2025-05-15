@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Novo Empréstimo - Biblioteca{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h2 class="mb-0">Novo Empréstimo</h2>
+    </div>
+    <div class="card-body">
+        <form method="POST">
+            <div class="mb-3">
+                <label for="client_id" class="form-label">Cliente</label>
+                <select class="form-select" id="client_id" name="client_id" required>
+                    <option value="">Selecione um cliente</option>
+                    {% for client in clients %}
+                    <option value="{{ client.id }}">
+                        {{ client.name }} ({{ client.email }})
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="book_id" class="form-label">Livro</label>
+                <select class="form-select" id="book_id" name="book_id" required>
+                    <option value="">Selecione um livro</option>
+                    {% for book in available_books %}
+                    <option value="{{ book.id }}" {% if selected_book_id and book.id == selected_book_id %}selected{% endif %}>
+                        {{ book.name }} - {{ book.author.name }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="end" class="form-label">Data Prevista de Devolução</label>
+                <input type="date" class="form-control" id="end" name="end" required>
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <a href="{{ url_for('loan_controller.index') }}" class="btn btn-secondary">Cancelar</a>
+                <button type="submit" class="btn btn-primary">Criar Empréstimo</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %} 

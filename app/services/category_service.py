@@ -17,3 +17,10 @@ class CategoryService:
         if category := CategoryRepository.get_by_id(category_id):
             return category
         raise NotFoundError("Categoria não encontrada")
+
+    @staticmethod
+    def update_category(category_id, data):
+        validated_data = CategorySchema().load(data, partial=True)
+        if category := CategoryRepository.update(category_id, validated_data):
+            return category
+        raise NotFoundError("Categoria não encontrada")

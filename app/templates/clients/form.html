@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}{{ 'Editar' if client else 'Novo' }} Cliente - Biblioteca{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h2 class="mb-0">{{ 'Editar' if client else 'Novo' }} Cliente</h2>
+    </div>
+    <div class="card-body">
+        <form method="POST">
+            <div class="mb-3">
+                <label for="name" class="form-label">Nome</label>
+                <input type="text" class="form-control" id="name" name="name" value="{{ client.name if client else '' }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" name="email" value="{{ client.email if client else '' }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="phone" class="form-label">Telefone</label>
+                <input type="tel" class="form-control" id="phone" name="phone" value="{{ client.phone if client else '' }}" required>
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <a href="{{ url_for('client_controller.index') }}" class="btn btn-secondary">Cancelar</a>
+                <button type="submit" class="btn btn-primary">Salvar</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %} 

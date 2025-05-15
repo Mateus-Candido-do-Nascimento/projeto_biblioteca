@@ -8,6 +8,7 @@ class ClientSchema(Schema):
         validate=validate.Length(min=2, max=100)
     )
     email = fields.Email(required=True)
+    phone = fields.Str(validate=validate.Length(max=20))
 
     @validates('email')
     def validate_email(self, value):

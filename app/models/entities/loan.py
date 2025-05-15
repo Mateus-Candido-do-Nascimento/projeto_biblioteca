@@ -8,9 +8,10 @@ class Loan(db.Model):
     id_client = db.Column(db.Integer, db.ForeignKey('clients.id'), nullable=False)
     start = db.Column(db.DateTime, default=datetime.utcnow)
     end = db.Column(db.DateTime)
+    expected_end = db.Column(db.DateTime)
     
     # Relacionamento N:N com livros (através de book_loan)
-    books = db.relationship('BookLoan', backref='loan', lazy=True)
+    books = db.relationship('BookLoan', backref='loan', lazy=True, cascade="all, delete-orphan")
     
     def __repr__(self):
         return f'<Loan {self.id}>'

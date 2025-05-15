@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Detalhes do Empréstimo - Biblioteca{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h2 class="mb-0">Detalhes do Empréstimo</h2>
+        <div class="btn-group" role="group">
+            {% if not loan.end %}
+            <form action="{{ url_for('loan_controller.return_books', id=loan.id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Tem certeza que deseja devolver este empréstimo?')">
+                <button type="submit" class="btn btn-success">Devolver</button>
+            </form>
+            {% endif %}
+            <form action="{{ url_for('loan_controller.delete', id=loan.id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Tem certeza que deseja excluir este empréstimo?')">
+                <button type="submit" class="btn btn-danger">Excluir</button>
+            </form>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <h5>Livros Emprestados</h5>
+                <ul>
+                {% for book_loan in loan.books %}
+                    <li>{{ book_loan.book.name }}</li>
+                {% endfor %}
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <h5>Informações do Cliente</h5>
+                <table class="table">
+                    <tr>
+                        <th>Nome:</th>
+                        <td>{{ loan.client.name }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <h5>Informações do Empréstimo</h5>
+                <table class="table">
+                    <tr>
+                        <th>Data de Empréstimo:</th>
+                        <td>{{ loan.start.strftime('%d/%m/%Y') }}</td>
+                    </tr>
+                    <tr>
+                        <th>Data Prevista de Devolução:</th>
+                        <td>{% if loan.expected_end %}{{ loan.expected_end.strftime('%d/%m/%Y') }}{% else %}---{% endif %}</td>
+                    </tr>
+                    <tr>
+                        <th>Data de Devolução:</th>
+                        <td>{% if loan.end %}{{ loan.end.strftime('%d/%m/%Y') }}{% else %}---{% endif %}</td>
+                    </tr>
+                    <tr>
+                        <th>Status:</th>
+                        <td>
+                            {% if loan.end %}
+                            <span class="badge bg-success">Devolvido</span>
+                            {% elif is_late %}
+                            <span class="badge bg-danger">Atrasado</span>
+                            {% else %}
+                            <span class="badge bg-warning">Emprestado</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <a href="{{ url_for('loan_controller.index') }}" class="btn btn-secondary">Voltar para Lista</a>
+    </div>
+</div>
+{% endblock %} 

@@ -17,3 +17,7 @@ class BaseRepository:
         except:
             db.session.rollback()
             raise
+
+    @staticmethod
+    def rollback():
+        db.session.rollback()

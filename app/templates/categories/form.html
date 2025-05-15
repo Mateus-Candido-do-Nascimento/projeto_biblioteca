@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}{{ 'Editar' if category else 'Nova' }} Categoria - Biblioteca{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h2 class="mb-0">{{ 'Editar' if category else 'Nova' }} Categoria</h2>
+    </div>
+    <div class="card-body">
+        <form method="POST">
+            <div class="mb-3">
+                <label for="name" class="form-label">Nome</label>
+                <input type="text" class="form-control" id="name" name="name" value="{{ category.name if category else '' }}" required>
+            </div>
+            <div class="d-flex justify-content-between">
+                <a href="{{ url_for('category_controller.index') }}" class="btn btn-secondary">Cancelar</a>
+                <button type="submit" class="btn btn-primary">Salvar</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %} 

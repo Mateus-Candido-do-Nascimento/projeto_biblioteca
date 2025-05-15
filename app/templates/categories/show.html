@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Detalhes da Categoria - Biblioteca{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h2 class="mb-0">Detalhes da Categoria</h2>
+    </div>
+    <div class="card-body">
+        <table class="table">
+            <tr>
+                <th>Nome:</th>
+                <td>{{ category.name }}</td>
+            </tr>
+        </table>
+    </div>
+    <div class="card-footer">
+        <a href="{{ url_for('category_controller.index') }}" class="btn btn-secondary">Voltar para Lista</a>
+        <a href="{{ url_for('category_controller.edit', id=category.id) }}" class="btn btn-warning">Editar</a>
+        <form action="{{ url_for('category_controller.delete', id=category.id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Tem certeza que deseja excluir esta categoria?');">
+            <button type="submit" class="btn btn-danger">Excluir</button>
+        </form>
+    </div>
+</div>
+{% endblock %} 

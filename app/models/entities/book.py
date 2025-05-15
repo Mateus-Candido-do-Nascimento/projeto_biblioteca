@@ -14,3 +14,7 @@ class Book(db.Model):
     
     def __repr__(self):
         return f'<Book {self.name}>'
+
+    @property
+    def is_available(self):
+        return self.quantity > 0
