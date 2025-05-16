@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Ambiente virtual
+venv/
+env/
+ENV/
+
+# Banco de dados
+*.db
+*.sqlite3
+instance/
+
+# Arquivos de ambiente
+.env
+.env.*
+
+# Arquivos de cobertura de testes
+.coverage
+htmlcov/
+
+# Arquivos de IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Arquivos de sistema
+.DS_Store
+Thumbs.db
+
+# Arquivos de log
+*.log
