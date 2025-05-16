@@ -1,12 +1,17 @@
 {% extends "base.html" %}
 
+{% block title %}Autores - Biblioteca{% endblock %}
+
 {% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
     <h1>Autores</h1>
-    <a href="{{ url_for('author_controller.create') }}">Novo Autor</a>
-    <table>
+    <a href="{{ url_for('author_controller.create') }}" class="btn btn-primary">Novo Autor</a>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
         <thead>
             <tr>
-                <th>ID</th>
                 <th>Nome</th>
                 <th>Ações</th>
             </tr>
@@ -14,13 +19,18 @@
         <tbody>
             {% for author in authors %}
             <tr>
-                <td>{{ author.id }}</td>
                 <td>{{ author.name }}</td>
                 <td>
-                    <a href="{{ url_for('author_controller.edit', id=author.id) }}">Editar</a>
+                    <div class="btn-group" role="group">
+                        <a href="{{ url_for('author_controller.edit', id=author.id) }}" class="btn btn-warning btn-sm">Editar</a>
+                        <form action="{{ url_for('author_controller.delete', id=author.id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Tem certeza que deseja excluir este autor?');">
+                            <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
+                        </form>
+                    </div>
                 </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
+</div>
 {% endblock %}

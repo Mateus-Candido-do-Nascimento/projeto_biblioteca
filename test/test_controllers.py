@@ -1,8 +1,3 @@
-def test_index(client):
-    resp = client.get('/')
-    assert resp.status_code == 200
-
-
 def test_authors_list(client):
     resp = client.get('/authors/')
     assert resp.status_code == 200

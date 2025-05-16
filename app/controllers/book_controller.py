@@ -1,6 +1,8 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from app.services import BookService, AuthorService, CategoryService
 from app.utils.exceptions import BusinessRuleError, NotFoundError
+from app.models import Book, Client, Loan
+from app.extensions import db
 
 
 book_bp = Blueprint('book_controller', __name__)
@@ -65,13 +67,20 @@ def delete(id):
         flash(str(e), 'danger')
     return redirect(url_for('book_controller.index'))
 
-@book_bp.route('/<int:id>/return', methods=['POST'])
-def return_book(id):
-    try:
-        BookService.return_book(id)
-        flash('Livro devolvido com sucesso!', 'success')
-    except BusinessRuleError as e:
-        flash(str(e), 'danger')
-    except NotFoundError as e:
-        flash(str(e), 'danger')
+@book_bp.route('/<int:id>/loan', methods=['POST'])
+def loan_book(id):
+    book = Book.query.get_or_404(id)
+    if not book.is_available or book.quantity <= 0:
+        flash('Livro não está disponível para empréstimo.', 'danger')
+        return redirect(url_for('book_controller.show', id=id))
+    client_id = request.form.get('client_id')
+    if not client_id:
+        flash('Cliente não selecionado.', 'danger')
+        return redirect(url_for('book_controller.show', id=id))
+    client = Client.query.get_or_404(client_id)
+    loan = Loan(book_id=book.id, client_id=client.id)
+    book.quantity -= 1
+    db.session.add(loan)
+    db.session.commit()
+    flash('Livro emprestado com sucesso!', 'success')
     return redirect(url_for('book_controller.show', id=id))

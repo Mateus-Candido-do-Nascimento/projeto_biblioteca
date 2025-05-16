@@ -21,3 +21,13 @@ class BaseRepository:
     @staticmethod
     def rollback():
         db.session.rollback()
+
+    @staticmethod
+    def delete(entity):
+        db.session.delete(entity)
+        try:
+            db.session.commit()
+            return True
+        except:
+            db.session.rollback()
+            raise

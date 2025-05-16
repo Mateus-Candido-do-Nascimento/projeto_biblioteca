@@ -1,7 +1,7 @@
-from flask import Blueprint, redirect, url_for
+from flask import Blueprint, render_template
 
 index_bp = Blueprint('index_controller', __name__)
 
 @index_bp.route('/')
 def index():
-    return redirect(url_for('book_controller.index'))
+    return render_template('welcome.html')

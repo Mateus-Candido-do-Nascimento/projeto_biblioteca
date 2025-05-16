@@ -59,3 +59,17 @@ class BookRepository(BaseRepository):
         except SQLAlchemyError as e:
             BaseRepository.rollback()
             raise e
+
+    @staticmethod
+    def delete(book_id):
+        book = BookRepository.get_by_id(book_id)
+        if not book:
+            return None
+        try:
+            # Remove os empréstimos associados ao livro
+            from app.models.entities.book_loan import BookLoan
+            BookLoan.query.filter_by(id_book=book_id).delete()
+            return BaseRepository.delete(book)
+        except SQLAlchemyError as e:
+            BaseRepository.rollback()
+            raise e
