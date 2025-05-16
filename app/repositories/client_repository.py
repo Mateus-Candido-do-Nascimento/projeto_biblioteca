@@ -30,3 +30,23 @@ class ClientRepository(BaseRepository):
         except SQLAlchemyError as e:
             BaseRepository.rollback()
             raise e
+
+    @staticmethod
+    def update(client, data):
+        try:
+            for key, value in data.items():
+                setattr(client, key, value)
+            return BaseRepository.save(client)
+        except SQLAlchemyError as e:
+            BaseRepository.rollback()
+            raise e
+
+    @staticmethod
+    def delete(client):
+        try:
+            db.session.delete(client)
+            db.session.commit()
+            return True
+        except SQLAlchemyError as e:
+            BaseRepository.rollback()
+            raise e

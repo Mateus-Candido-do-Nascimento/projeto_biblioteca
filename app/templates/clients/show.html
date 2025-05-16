@@ -28,11 +28,13 @@
         </table>
     </div>
     <div class="card-footer">
-        <a href="{{ url_for('client_controller.index') }}" class="btn btn-secondary">Voltar para Lista</a>
-        <a href="{{ url_for('client_controller.edit', id=client.id) }}" class="btn btn-warning">Editar</a>
-        <form action="{{ url_for('client_controller.delete', id=client.id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Tem certeza que deseja excluir este cliente?');">
-            <button type="submit" class="btn btn-danger">Excluir</button>
-        </form>
+        <div class="btn-group" role="group">
+            <a href="{{ url_for('client_controller.index') }}" class="btn btn-secondary">Voltar para Lista</a>
+            <a href="{{ url_for('client_controller.edit', id=client.id) }}" class="btn btn-warning">Editar</a>
+            <form action="{{ url_for('client_controller.delete', id=client.id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Tem certeza que deseja excluir este cliente?');">
+                <button type="submit" class="btn btn-danger">Excluir</button>
+            </form>
+        </div>
     </div>
 </div>
 {% endblock %} 

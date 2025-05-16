@@ -34,7 +34,9 @@
                     <div class="btn-group" role="group">
                         <a href="{{ url_for('client_controller.show', id=client.id) }}" class="btn btn-info btn-sm">Detalhes</a>
                         <a href="{{ url_for('client_controller.edit', id=client.id) }}" class="btn btn-warning btn-sm">Editar</a>
-                        <a href="{{ url_for('client_controller.delete', id=client.id) }}" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja excluir este cliente?')">Excluir</a>
+                        <form action="{{ url_for('client_controller.delete', id=client.id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Tem certeza que deseja excluir este cliente?');">
+                            <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
+                        </form>
                     </div>
                 </td>
             </tr>

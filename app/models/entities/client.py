@@ -8,7 +8,7 @@ class Client(db.Model):
     name = db.Column(db.String(100), nullable=False)
     phone = db.Column(db.String(20))
     
-    loans = db.relationship('Loan', backref='client', lazy=True)
+    loans = db.relationship('Loan', backref='client', lazy=True, cascade="all, delete-orphan")
     
     def __repr__(self):
         return f'<Client {self.name}>'
