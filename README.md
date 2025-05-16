@@ -83,7 +83,12 @@ DATABASE_URL=sqlite:///database.db
 flask db upgrade
 ```
 
-6. Inicie o servidor:
+6. Popule o banco de dados com dados iniciais:
+```bash
+python scripts/populate_db.py
+```
+
+7. Inicie o servidor:
 ```bash
 flask run
 ```
