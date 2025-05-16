@@ -159,3 +159,11 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 - [ ] Adicionar autenticação de usuários
 - [ ] Implementar API REST
 - [ ] Adicionar testes automatizados
+
+## 💡 Dicas para rodar em outro ambiente
+
+- Certifique-se de criar o arquivo `.env` na raiz do projeto, conforme instruções acima. Não versionar esse arquivo.
+- O diretório `venv/` (ambiente virtual) não deve ser versionado. Crie um novo ambiente virtual na nova máquina.
+- Sempre execute as migrações (`flask db upgrade`) e popule o banco de dados (`python scripts/populate_db.py`) ao rodar o projeto em uma nova máquina.
+- Se encontrar erros de indentação ou de dependências, revise os arquivos conforme necessário e reinstale as dependências com `pip install -r requirements.txt`.
+- O arquivo do banco de dados (`instance/database.db`) é gerado automaticamente, não precisa ser copiado entre máquinas.
