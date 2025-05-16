@@ -3,7 +3,7 @@ from app.models import Author, Category, Book
 
 # Dados extraídos da planilha
 LIVROS = [
-    # (titulo, autor, genero, isbn, disponivel)
+    # (nome, autor, genero, isbn, disponivel)
     ("O Grande Gatsby", "F. Scott Fitzgerald", "Romance", "978-853590", True),
     ("A Sociedade do Anel", "J.R.R. Tolkien", "Fantasia", "978-85325", True),
     ("Harry Potter", "J.K. Rowling", "Fantasia", "978-85325", True),
@@ -48,16 +48,15 @@ def main():
         db.session.commit()
 
         # 3. Adicionar livros
-        for titulo, autor_nome, categoria_nome, isbn, disponivel in LIVROS:
+        for nome, autor_nome, categoria_nome, isbn, disponivel in LIVROS:
             autor = autor_objs[autor_nome]
             categoria = categoria_objs[categoria_nome]
-            if not Book.query.filter_by(title=titulo, author_id=autor.id).first():
+            if not Book.query.filter_by(name=nome, id_author=autor.id).first():
                 livro = Book(
-                    title=titulo,
-                    author_id=autor.id,
-                    category_id=categoria.id,
-                    isbn=isbn,
-                    is_available=disponivel
+                    name=nome,
+                    id_author=autor.id,
+                    id_category=categoria.id,
+                    quantity=1 if disponivel else 0
                 )
                 db.session.add(livro)
         db.session.commit()
